@@ -66,7 +66,14 @@ res.status(200).json(novoAluno);
 });
 
 // PUT - Atualizar aluno
-app.put("/aluno/:id", (req, res) => {
+app.post("/alunos", (req, res) => {
+  const { nome, email, turma } = req.body;
+  
+  if(!nome || !email || !turma){
+    return res.status(404).json({
+      mensagem: "Informe nome, email e turma"
+    });
+  }
     const id = Number(req, params.id);
 
     const indice = alunos.findIndex(a => a.id === id);
@@ -77,7 +84,6 @@ app.put("/aluno/:id", (req, res) => {
         });
     }
 
-    const { nome, email, turma } = req.body;
 
     if(!nome || !email || !turma){
         return res.status(404).json({
@@ -93,6 +99,22 @@ app.put("/aluno/:id", (req, res) => {
     };
 
     res.status(200).json(alunos[indice]);
+
+});
+
+app.patch("/alunos", (req, res) => {
+      const { nome, email, turma } = req.body;
+      
+      if(!nome || !email || !turma){
+        return res.status(404).json({
+          mensagem: "Informe nome, email e turma"
+        });
+      }
+    aluno.nome = nome || aluno.nome;
+    aluno.email = email || aluno.email;
+    aluno.turma = turma || aluno.turma;
+
+    res.status(200).json(aluno);
 
 });
 
